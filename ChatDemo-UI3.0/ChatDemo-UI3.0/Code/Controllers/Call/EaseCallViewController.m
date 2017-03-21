@@ -352,6 +352,14 @@
 
 - (void)_beginRing
 {
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    _audioCategory = audioSession.category;
+    if(![_audioCategory isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
+        
+        [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+        [audioSession setActive:YES error:nil];
+    }
+    
     NSString *musicPath = [[NSBundle mainBundle] pathForResource:@"callRing" ofType:@"mp3"];
     NSURL *url = [[NSURL alloc] initFileURLWithPath:musicPath];
     
